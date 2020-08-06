@@ -1,5 +1,5 @@
 // Variables
-
+const form = document.querySelector('#formulario');
 const tweetsList = document.querySelector('#lista-tweets');
 
 // Event Listeners
@@ -8,7 +8,9 @@ eventListeners();
 
 function eventListeners() {
     // when submit form
-    document.querySelector('#formulario').addEventListener('submit', addTweet);
+    form.addEventListener('submit', addTweet);
+    // delete tweet (w/delegation)
+    tweetsList.addEventListener('click', deleteTweet);
 }
 
 
@@ -28,6 +30,12 @@ function addTweet(event) {
     li.innerText = tweet;
     li.appendChild(deleteBtn);
     // add li to DOM
-    tweetsList.appendChild(li);
-    
+    tweetsList.appendChild(li);    
+}
+
+function deleteTweet(event) {
+    event.preventDefault();
+    if (event.target.className === 'borrar-tweet') {
+        event.target.parentElement.remove();      
+    }    
 }
