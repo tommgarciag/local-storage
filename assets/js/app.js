@@ -33,13 +33,14 @@ function addTweet(event) {
     // add li to DOM
     tweetsList.appendChild(li);  
     // add tweet to local storage
-    addToLocalStorage(tweet);  
+    addTweetLocalStorage(tweet);  
 }
 
 function deleteTweet(event) {
     event.preventDefault();
     if (event.target.className === 'borrar-tweet') {
-        event.target.parentElement.remove();      
+        event.target.parentElement.remove(); 
+        deleteTweetLocalStorage(event.target.parentElement.innerText);    
     }    
 }
 
@@ -61,7 +62,7 @@ function loadTweet() {
     });
 }
 
-function addToLocalStorage(tweet) {
+function addTweetLocalStorage(tweet) {
     let tweets;
     tweets = getTweetsLocalStorage();
     // add new tweets
@@ -81,3 +82,17 @@ function getTweetsLocalStorage() {
     return tweets;
 }
 
+function deleteTweetLocalStorage(tweet) {
+    let tweets;
+    // delete X from tweet
+    let tweetToDelete = tweet.substring(0, tweet.length -1);
+
+    tweets = getTweetsLocalStorage();
+    tweets.forEach((tweet, index) => {
+        if (tweet === tweetToDelete) {
+            tweets.splice(index, 1);
+        }
+    })
+
+    localStorage.setItem('tweets', JSON.stringify(tweets));
+}
