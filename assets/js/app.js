@@ -1,4 +1,5 @@
 // Variables
+
 const form = document.querySelector('#formulario');
 const tweetsList = document.querySelector('#lista-tweets');
 
@@ -11,9 +12,9 @@ function eventListeners() {
     form.addEventListener('submit', addTweet);
     // delete tweet (w/delegation)
     tweetsList.addEventListener('click', deleteTweet);
+    // load local storage
+    document.addEventListener('DOMContentLoaded' , loadTweet);
 }
-
-
 
 // Functions
 
@@ -42,6 +43,24 @@ function deleteTweet(event) {
     }    
 }
 
+function loadTweet() {
+    let tweets;
+    tweets = getTweetsLocalStorage();
+    
+    tweets.forEach((tweet) => {
+        // create delete btn
+        const deleteBtn = document.createElement('a');
+        deleteBtn.classList = 'borrar-tweet';
+        deleteBtn.innerText = 'X';
+        // create element and add content to list
+        const li = document.createElement('li');
+        li.innerText = tweet;
+        li.appendChild(deleteBtn);
+        // add li to DOM
+        tweetsList.appendChild(li);
+    });
+}
+
 function addToLocalStorage(tweet) {
     let tweets;
     tweets = getTweetsLocalStorage();
@@ -49,7 +68,6 @@ function addToLocalStorage(tweet) {
     tweets.push(tweet);    
     // convert array to string
     localStorage.setItem('tweets', JSON.stringify(tweets));
-
 }
 
 function getTweetsLocalStorage() {
@@ -62,3 +80,4 @@ function getTweetsLocalStorage() {
     }
     return tweets;
 }
+
